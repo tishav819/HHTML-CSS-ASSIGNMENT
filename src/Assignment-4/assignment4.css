@@ -31,6 +31,7 @@ header h1 {
   }
   
 nav li:hover {
+  
     background: #3F8DA7;
     color: black;
     cursor: pointer;
