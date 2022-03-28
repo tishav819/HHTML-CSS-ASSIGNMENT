@@ -1,41 +1,123 @@
 <!DOCTYPE html>
-<html>
+
+
 <head>
-	<title></title>
-	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-	<meta http-equiv="Pragma" content="no-cache" />
-	<meta http-equiv="Expires" content="0" />
-	<script src="bundle.js" type="text/javascript"></script>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./assignment6.css">
+	<title>Add Thread</title>
 </head>
 
 <body>
-	<div id="container">
+	<div id="container" class="container">
 
-	<!-- Start your code from here -->
+		<!-- Start your code from here -->
 
+		<div class="leftOne">
+			<div class="counter">
+				<div>Characters: <span id="characterCount">0</span></div>
+				<div>Threads: <span id="threadCount">0</span></div>
+			</div>
+
+			<div class="inputOne">
+				<textarea name="input" id="input" placeholder="Please! Enter your text here"></textarea>
+				<button id="buttn" class="buttn">Thread</button>
+			</div>
+		</div>
+
+		<div class="rightOne">
+			<p class="para">Your Threads will appear here🔥</p>
+			<p class="para">🔥 The character limit for each threads is 275</p>
+			<div id="displaypart"></div>
+
+		</div>
+	</div>
 
 	<!-- End your code -->
 
 	</div>
 
 	<script type="text/javascript">
-	// write your javascript code here
+		// write your javascript code here
+
+		
+		document.getElementById("input").addEventListener("input", (e) => {
+			let characterCount = document.getElementById("characterCount");
+			characterCount.innerHTML = input.value.length;
+
+			let output;
+			if ((input.value.length % 275) === 0) {
+				output = parseInt(input.value.length / 275);
+			}
+			else {
+				output = parseInt(input.value.length / 275) + 1;
+			}
+			document.getElementById("threadCount").innerHTML = output;
+
+		});
+
+	
+		let li = [];
+		document.getElementById("buttn").addEventListener("click", (e) => {
+			let input = document.getElementById("input");
+
+			
+			if (!input.value.length) {
+				alert("Please! give some input here");
+				return;
+			}
+
+			let html = input.value[0], count = 1;
+
+			
+			for (let i = 1; i < input.value.length; i++) {
+				if (count < 275) {
+					html += input.value[i];
+					count++;
+				}
+				else {
+					li.push([html]);
+					html = input.value[i];
+					count = 1;
+				}
+			}
+			li.push([html]);
+
+			populateDom(li);
+
+			input.value = "";
+
+			document.getElementById("characterCount").innerHTML = 0;
+
+			document.getElementById("threadCount").innerHTML = 0;
+
+		});
+		function populateDom(list) {
+			html = "";
+			let display = document.getElementById("displaypart");
+			list.forEach((ele, idx) => {
+				html += `<div class="thread">
+					<div class= "head">
+    				<h4>Thread: ${idx + 1}</h4>
+					</div>
+    				<p class= "paragraph">${ele[0]}</p>
+   	 				<button id="buttnid${idx}" class="buttn" onclick="deleting(this.id)">Delete</button>
+					</div>`;
+			});
+			display.innerHTML = html;
+
+		}
+
+		
+		function deleting(del) {
+			let idx = del.replace("buttnid", "");
+			li.splice(idx, 1);
+			populateDom(li);
+		}
+
 
 	</script>
 
 </body>
-<script>
-/* DO NOT EDIT THIS CODE- WRITTERN TO PREVENT CSS CACHING */	  
-	// Get HTML head element
-	var head = document.getElementsByTagName('HEAD')[0]; 
-	// Create new link Element
-	var link = document.createElement('link');
-	// set the attributes for link element 
-	link.rel = 'stylesheet'; 
-	link.type = 'text/css';
-	link.href = './assignment6.css?v='+ new Date().getTime(); 
-	// Append link element to HTML head
-	head.appendChild(link); 
-	/* DO NOT EDIT THIS CODE- WRITTERN TO PREVENT CSS CACHING */	  
-</script> 
-</html>
+
